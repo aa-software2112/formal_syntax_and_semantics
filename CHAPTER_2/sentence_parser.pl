@@ -16,20 +16,23 @@ has(FactType) :- current_predicate(FactType).
 % Finds the sentence composed of a noun phrase from index K -> M, then
 % the predicate (Verb) from M -> N, and the period (last character),
 % from N -> L
-sentence(K, L) :- nounPhrase(K, M), predicate(M, N), period(N, L).
+% The valid sentences can be generated via ?- sentence(X, []).
+% and a sentence queried via sentence([the, girl, sang, a, song, '.'], []).
+% which uses "difference lists".
+sentence(K, L) :- nounPhrase(K, M), predicate(M, R), 'C'(R,'.',L).
 nounPhrase(K, L) :- determiner(K, M), noun(M, L).
 predicate(K, L) :- verb(K, M), nounPhrase(M, L).
 predicate(K, L) :- verb(K, L).
-determiner(K, L) :- a(K, L).
-determiner(K, L) :- the(K, L).
-noun(K, L) :- has(boy/2), boy(K, L).
-noun(K, L) :- has(girl/2), girl(K, L).
-noun(K, L) :- has(cat/2), cat(K, L).
-noun(K, L) :- has(telescope/2), telescope(K, L).
-noun(K, L) :- has(song/2), song(K, L).
-noun(K, L) :- has(feather/2), feather(K, L).
-verb(K, L) :- has(saw/2), saw(K, L).
-verb(K, L) :- has(touched/2), touched(K, L).
-verb(K, L) :- has(surprised/2), surprised(K, L).
-verb(K, L) :- has(sang/2), sang(K, L).
-
+determiner(K, L) :- 'C'(K, a, L).
+determiner(K, L) :- 'C'(K, the, L).
+noun(K, L) :- 'C'(K, boy, L).
+noun(K, L) :- 'C'(K, girl, L).
+noun(K, L) :- 'C'(K, cat, L).
+noun(K, L) :- 'C'(K, telescope, L).
+noun(K, L) :- 'C'(K, song, L).
+noun(K, L) :- 'C'(K, feather, L).
+verb(K, L) :- 'C'(K, saw, L).
+verb(K, L) :- 'C'(K, touched, L).
+verb(K, L) :- 'C'(K, surprised, L).
+verb(K, L) :- 'C'(K, sang, L).
+'C'([H|T],H,T).
