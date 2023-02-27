@@ -3,6 +3,8 @@
 test(In) :- atom_chars(In, Lst), roman(Lst, []).
 get(Out) :- roman(Lst, []), atom_chars(Out, Lst).
 checkSize(CurrentSize, Limit, NextSize) :- NextSize is CurrentSize + 1, NextSize =< Limit.
+
+
 roman --> hundreds, tens, units.
 hundreds --> ['C','C','C']; ['C','C']; ['C','D']; ['C']; [].
 tens --> ['X', 'L']; ['X', 'C']; ['L'], lowtens(0); lowtens(0).
