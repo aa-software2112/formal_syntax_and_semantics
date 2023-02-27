@@ -1,0 +1,3 @@
+% This example can be found on page 56
+booleanExpr(bexp(A, B)) --> bterm(A); 
+	
